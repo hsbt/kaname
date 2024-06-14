@@ -7,6 +7,8 @@ module Kaname
   class CLI < Thor
     desc 'password', 'Commands about updating user password'
     def password
+      adapter = Kaname::Adapter::ReadAndWrite.new
+
       puts "current_user: #{Kaname::Config.username}"
 
       print "type your current password: "
@@ -16,7 +18,7 @@ module Kaname
       new_password = STDIN.noecho(&:gets).strip
       puts
 
-      Kaname::Adapter::ReadAndWrite.new.update_user_password(old_password, new_password)
+      adapter.update_user_password(old_password, new_password)
     end
 
     option :dryrun, type: :boolean
